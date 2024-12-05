@@ -1,0 +1,46 @@
+from sympy import symbols, Eq, solve
+import numpy as np
+
+print("This is a put-call parity model for option valuation. ")
+
+print("Please enter '0' for the value you want to find \n")
+
+c = float(input("What is the current price of the call option? [$]"))
+p = float(input("What is the price of the put option? [$]"))
+s = float(input("What is the price of the underlying stock? [$]"))
+x = float(input("What is the strike price? [$]"))
+rf = float(input("Please enter Risk Free Rate of Return "))/100
+t = float(input("Please enter the time to maturity in years "))
+
+def bond(x,rf,t):
+  return x/(1+rf)**t
+
+if c == 0:
+  cs = symbols('cs')
+  equation =Eq(p + s, cs + bond(x,rf,t))
+  solution = solve(equation,cs)
+
+  print("The price of the call option should be ${}".format(solution))
+
+elif p == 0:
+  ps = symbols('ps')
+  equation =Eq(ps + s, c + bond(x,rf,t))
+  solution = solve(equation,ps)
+
+  print("The value of the put option should be ${}".format(solution))
+
+elif s == 0:
+  ss = symbols('ss')
+  equation =Eq(p + ss, c + bond(x,rf,t))
+  solution = solve(equation,ss)
+
+  print("The value of the underlying stock should be ${}".format(solution))
+
+elif x == 0:
+  xs = symbols('xs')
+  equation =Eq(p + s, c + bond(xs,rf,t))
+  solution = solve(equation,xs)
+
+  print("The value of the bond you want to invest in should be ${}".format(solution))
+
+
